@@ -31,7 +31,8 @@
 import axios from 'axios';
 
 // 1. http:// lagana zaroori hai aur end mein '/' mat rakhein
-const API_URL = 'http://localhost:5000/api/auth';
+//const API_URL = 'http://localhost:5000/api/auth';
+const API_URL = 'https://flight-booking-backend-idk2.onrender.com/api/auth';
 
 export const login = async (email, password) => {
   try {
