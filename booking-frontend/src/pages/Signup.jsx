@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import { register } from '../api/authService';
 
 const Signup = () => {
-  // Backend model ke hisaab se 'name' field add kiya
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -15,12 +14,10 @@ const Signup = () => {
     setError('');
 
     try {
-      // Pura object bhej rahe hain (name, email, password)
       await register(formData); 
       alert("Registration Successful! Now you can Login.");
       navigate('/login'); 
     } catch (err) {
-      // Backend se aane wale exact error message ko handle karne ke liye
       setError(err.response?.data?.message || "Registration failed. Try again.");
     } finally {
       setLoading(false);
@@ -28,40 +25,77 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-900 px-4">
-      <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-2xl">
-        <h2 className="mb-6 text-center text-3xl font-bold text-gray-800">Create Account</h2>
-        
-        {error && <p className="mb-4 text-center text-red-500 bg-red-50 p-2 rounded">{error}</p>}
+    <div className="container-fluid vh-100 d-flex align-items-center justify-content-center bg-dark">
+      <div className="card shadow-lg border-0 rounded-4" style={{ maxWidth: '450px', width: '100%' }}>
+        <div className="card-body p-5 bg-white">
+          <div className="text-center mb-4">
+            <h2 className="fw-bold text-dark">Create Account</h2>
+            <p className="text-muted small">Join us today!</p>
+          </div>
 
-        <form onSubmit={handleSignup} className="space-y-4">
-          {/* Name Field - Required for Backend Model */}
-          <input 
-            type="text" placeholder="Full Name" required
-            className="w-full rounded-lg border p-3 text-black outline-none focus:ring-2 focus:ring-green-500"
-            onChange={(e) => setFormData({...formData, name: e.target.value})} 
-          />
-          <input 
-            type="email" placeholder="Email Address" required
-            className="w-full rounded-lg border p-3 text-black outline-none focus:ring-2 focus:ring-green-500"
-            onChange={(e) => setFormData({...formData, email: e.target.value})} 
-          />
-          <input 
-            type="password" placeholder="Password (min 6 characters)" required
-            className="w-full rounded-lg border p-3 text-black outline-none focus:ring-2 focus:ring-green-500"
-            onChange={(e) => setFormData({...formData, password: e.target.value})} 
-          />
-          <button 
-            disabled={loading}
-            className="w-full rounded-lg bg-green-600 p-3 font-bold text-white hover:bg-green-700 transition disabled:bg-green-400"
-          >
-            {loading ? 'Creating Account...' : 'Register'}
-          </button>
-        </form>
+          {error && (
+            <div className="alert alert-danger py-2 text-center small rounded-3 border-0">
+              {error}
+            </div>
+          )}
 
-        <p className="mt-6 text-center text-sm text-gray-600">
-          Already have an account? <Link to="/login" className="text-blue-600 font-bold hover:underline">Login here</Link>
-        </p>
+          <form onSubmit={handleSignup}>
+            {/* Full Name Field */}
+            <div className="form-floating mb-3">
+              <input 
+                type="text" 
+                className="form-control shadow-none border-secondary-subtle" 
+                id="nameInput" 
+                placeholder="John Doe"
+                required
+                onChange={(e) => setFormData({...formData, name: e.target.value})} 
+              />
+              <label htmlFor="nameInput" className="text-muted">Full Name</label>
+            </div>
+
+            {/* Email Field */}
+            <div className="form-floating mb-3">
+              <input 
+                type="email" 
+                className="form-control shadow-none border-secondary-subtle" 
+                id="emailInput" 
+                placeholder="name@example.com"
+                required
+                onChange={(e) => setFormData({...formData, email: e.target.value})} 
+              />
+              <label htmlFor="emailInput" className="text-muted">Email Address</label>
+            </div>
+
+            {/* Password Field */}
+            <div className="form-floating mb-4">
+              <input 
+                type="password" 
+                className="form-control shadow-none border-secondary-subtle" 
+                id="passwordInput" 
+                placeholder="Password"
+                required
+                onChange={(e) => setFormData({...formData, password: e.target.value})} 
+              />
+              <label htmlFor="passwordInput" className="text-muted">Password (min 6 characters)</label>
+            </div>
+
+            <button 
+              type="submit" 
+              className="btn btn-success w-100 py-3 rounded-3 fw-bold shadow-sm"
+              disabled={loading}
+            >
+              {loading ? (
+                <span className="spinner-border spinner-border-sm me-2"></span>
+              ) : 'Register'}
+            </button>
+          </form>
+
+          <div className="mt-4 text-center">
+            <p className="text-muted small">
+              Already have an account? <Link to="/login" className="text-primary fw-bold text-decoration-none">Login here</Link>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
