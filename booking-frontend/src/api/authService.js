@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-// 1. URL mein '/api/auth' zaroor add karein
-// const API_URL = 'http://localhost:5000/api/auth'; 
 const API_URL = 'https://onrender.com';
+
 
 
 export const login = async (email, password) => {
