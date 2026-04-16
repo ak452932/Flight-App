@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL = 'https://onrender.com';
+//const API_URL = 'https://onrender.com';
+const API_URL = 'https://flight-booking-backend-idk2.onrender.com';
+
 
 
 
