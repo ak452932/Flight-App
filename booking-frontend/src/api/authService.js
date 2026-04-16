@@ -1,14 +1,11 @@
 import axios from 'axios';
 
-//const API_URL = 'https://onrender.com';
-const API_URL = 'https://flight-booking-backend-idk2.onrender.com';
-
-
-
+// Sahi URL jisme /api/auth path shaamil hai
+const API_URL = 'https://flight-booking-backend-idk2.onrender.com/api/auth';
 
 export const login = async (email, password) => {
   try {
-    // 2. Ab ye call 'http://localhost:5000/api/auth/login' par jayegi
+    // Ab ye call sahi raste '.../api/auth/login' par jayegi
     const response = await axios.post(`${API_URL}/login`, { email, password });
     
     if (response.data.token) {
@@ -16,7 +13,7 @@ export const login = async (email, password) => {
     }
     return response.data;
   } catch (error) {
-    // 3. Error handle karne ke liye
+    // Backend se aane wala sahi error message dikhane ke liye
     throw error.response?.data?.message || 'Login failed';
   }
 };
