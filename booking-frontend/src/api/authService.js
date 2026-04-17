@@ -31,15 +31,18 @@
 import axios from 'axios';
 
 // 1. http:// lagana zaroori hai aur end mein '/' mat rakhein
-//const API_URL = 'http://localhost:5000/api/auth';
-const API_URL = 'https://flight-booking-backend-idk2.onrender.com/api/auth';
+const API_URL = 'http://localhost:5000/api/auth'; 
+//const API_URL = 'https://flight-booking-backend-idk2.onrender.com/api/auth';
 
 export const login = async (email, password) => {
   try {
+    // Backend expects: { email, password }
     const response = await axios.post(`${API_URL}/login`, { email, password });
     
     if (response.data.token) {
       localStorage.setItem('userToken', response.data.token);
+      // Agar user details bhi bhej rahe ho toh:
+      localStorage.setItem('user', JSON.stringify(response.data.user));
     }
     return response.data;
   } catch (error) {
@@ -47,11 +50,14 @@ export const login = async (email, password) => {
   }
 };
 
+
 // 2. Signup mein 'name' bhi bhejna hoga kyunki model mein required hai
 export const register = async (userData) => {
   try {
     // Backend route '/signup' hai, isliye wahi use karein
-    const response = await axios.post(`${API_URL}/signup`, userData); 
+    // Ensure it matches your backend route exactly
+const response = await axios.post(`${API_URL}/signup`, userData); 
+
     return response.data;
   } catch (error) {
     throw error.response?.data?.message || 'Signup failed';
