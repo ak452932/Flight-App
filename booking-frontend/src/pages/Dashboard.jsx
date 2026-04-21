@@ -27,7 +27,7 @@ const Dashboard = () => {
             <div className="bg-primary p-1 rounded-2 me-2 d-flex align-items-center">
               <Plane size={20} color="white" />
             </div>
-            skyscanner
+            Flyhigh
           </a>
           
           <div className="collapse navbar-collapse justify-content-center">
