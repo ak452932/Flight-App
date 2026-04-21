@@ -1,59 +1,111 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // 1. Navigate import karein
+import { Plane, Bell, User, LogOut, Search, MapPin, Calendar } from 'lucide-react';
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  
-  // Local storage se user ka data nikalna
-  const userToken = localStorage.getItem('userToken');
+  const navigate = useNavigate(); // 2. Navigate initialize karein
 
+  // Logout Function
   const handleLogout = () => {
-    localStorage.removeItem('userToken'); // Token delete karna
-    navigate('/login'); // Wapas login pe bhej dena
+    localStorage.removeItem('token'); // Agar token save kiya hai toh use remove karein
+    navigate('/login'); // Login page par redirect karein
   };
 
-  // Agar token nahi hai toh wapas login pe bhej do (Security)
-  if (!userToken) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-gray-900 text-white">
-        <div className="text-center">
-          <h2 className="text-2xl mb-4">Aap logged in nahi hain!</h2>
-          <button onClick={() => navigate('/login')} className="bg-blue-600 px-4 py-2 rounded">
-            Login Page par jayein
-          </button>
-        </div>
-      </div>
-    );
-  }
+  // Flight Data Array
+  const flightDeals = [
+    { city: "Ho Chi Minh City", country: "Vietnam", price: "24,370", img: "https://unsplash.com" },
+    { city: "Kuala Lumpur", country: "Malaysia", price: "24,551", img: "https://unsplash.com" },
+    { city: "Singapore", country: "Singapore", price: "18,200", img: "https://unsplash.com" }
+  ];
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Navigation Bar */}
-      <nav className="flex items-center justify-between bg-indigo-700 p-4 text-white shadow-lg">
-        <h1 className="text-xl font-bold">Flight App Dashboard</h1>
-        <button 
-          onClick={handleLogout}
-          className="rounded bg-red-500 px-4 py-2 font-semibold hover:bg-red-600 transition"
-        >
-          Logout
-        </button>
+    <div style={{ backgroundColor: '#f4f7f6', minHeight: '100vh' }}>
+      {/* --- NAVBAR --- */}
+      <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top py-3">
+        <div className="container">
+          <a className="navbar-brand d-flex align-items-center fw-bold text-primary" href="#">
+            <div className="bg-primary p-1 rounded-2 me-2 d-flex align-items-center">
+              <Plane size={20} color="white" />
+            </div>
+            skyscanner
+          </a>
+          
+          <div className="collapse navbar-collapse justify-content-center">
+            <ul className="navbar-nav mb-2 mb-lg-0 fw-semibold">
+              <li className="nav-item"><a className="nav-link active text-primary" href="#">Flights</a></li>
+              <li className="nav-item"><a className="nav-link px-3" href="#">Hotels</a></li>
+              <li className="nav-item"><a className="nav-link px-3" href="#">Car Hire</a></li>
+              <li className="nav-item"><a className="nav-link px-3" href="#">Deals</a></li>
+            </ul>
+          </div>
+
+          <div className="d-flex align-items-center gap-3">
+            <Bell size={20} className="text-secondary cursor-pointer" />
+            <div className="vr d-none d-md-block"></div>
+            <div className="d-flex align-items-center border rounded-pill px-3 py-1 bg-light">
+              <User size={18} className="me-2 text-primary" />
+              <span className="small fw-bold">Account</span>
+            </div>
+            {/* LOGOUT ICON LINKED HERE */}
+            <LogOut 
+              size={20} 
+              className="text-danger cursor-pointer" 
+              onClick={handleLogout} 
+              style={{ cursor: 'pointer' }}
+            />
+          </div>
+        </div>
       </nav>
 
-      {/* Main Content */}
-      <div className="flex flex-col items-center justify-center mt-20">
-        <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md text-center">
-          <div className="mb-4 flex justify-center">
-            <div className="h-20 w-20 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 text-4xl font-bold">
-              ✔
+      {/* --- HERO / SEARCH SECTION --- */}
+      <div className="container mt-5">
+        <div className="bg-dark p-5 rounded-4 shadow-lg text-white mb-5">
+          <h2 className="fw-bold mb-4">Find your next adventure</h2>
+          <div className="row g-2 bg-white p-2 rounded-3">
+            <div className="col-md-3">
+              <div className="input-group text-dark">
+                <span className="input-group-text bg-white border-0"><MapPin size={18} className="text-muted"/></span>
+                <input type="text" className="form-control border-0 shadow-none" placeholder="From" />
+              </div>
+            </div>
+            <div className="col-md-3 border-start">
+              <div className="input-group text-dark">
+                <span className="input-group-text bg-white border-0"><MapPin size={18} className="text-muted"/></span>
+                <input type="text" className="form-control border-0 shadow-none" placeholder="To" />
+              </div>
+            </div>
+            <div className="col-md-3 border-start">
+              <div className="input-group text-dark">
+                <span className="input-group-text bg-white border-0"><Calendar size={18} className="text-muted"/></span>
+                <input type="text" className="form-control border-0 shadow-none" placeholder="Depart" />
+              </div>
+            </div>
+            <div className="col-md-3">
+              <button className="btn btn-primary w-100 py-2 fw-bold rounded-2">
+                <Search size={18} className="me-2" /> Search
+              </button>
             </div>
           </div>
-          <h2 className="text-3xl font-bold text-gray-800 mb-2">Login Successful!</h2>
-          <p className="text-gray-600 mb-6">Aapka backend aur frontend successfully connect ho gaya hai.</p>
-          
-          <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-            <p className="text-sm text-gray-500 uppercase font-bold">Session Active</p>
-            <p className="text-blue-600 truncate font-mono text-xs mt-1">{userToken.substring(0, 30)}...</p>
-          </div>
+        </div>
+
+        {/* --- CARDS SECTION --- */}
+        <div className="row">
+            <h4 className="fw-bold mb-4">Recommended for you</h4>
+            {flightDeals.map((deal, index) => (
+              <div key={index} className="col-md-4 mb-4">
+                  <div className="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+                      <img src={deal.img} className="card-img-top" height="200" alt={deal.city} style={{objectFit: 'cover'}}/>
+                      <div className="card-body">
+                          <h5 className="card-title fw-bold">{deal.city}</h5>
+                          <p className="text-muted small mb-3">{deal.country}</p>
+                          <div className="d-flex justify-content-between align-items-center pt-3 border-top">
+                              <span className="text-primary fw-bold fs-5">₹ {deal.price}</span>
+                              <button className="btn btn-outline-primary btn-sm rounded-pill px-4">View</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            ))}
         </div>
       </div>
     </div>
